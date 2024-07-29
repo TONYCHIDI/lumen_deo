@@ -1,0 +1,36 @@
+{% extends "lumenapp/layout.html" %}
+
+{% block body %}
+<section class="page-view pt-5" id="register-page">
+    <div class="container top pt-5">
+
+        <h2 class="login-text my-5 py-5">Register</h2>
+
+        {% if msg %} 
+        <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-danger">
+          <h1>{{ msg.title }}</h1>
+          <p class="contact-label">{{ msg.body }}</p>
+        </section>
+        {% endif %}
+
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="email" name="email" placeholder="Email Address">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+            </div>
+            <input class="btn login-btn" type="submit" value="Register">
+        </form>
+
+        <span class="auth-alt">Already have an account? <a class="login-acro" href="{% url 'login' %}">Log In here.</a></span>
+    </div>
+</section>
+{% endblock %}

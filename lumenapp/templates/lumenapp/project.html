@@ -1,0 +1,303 @@
+<!-- project.html file -->
+
+{% extends "lumenapp/layout.html" %}
+
+{% load static %}
+
+{% block body %}
+
+
+<!-- Lumen Projects Section -->
+<section id="projects" class="project-container d-flex bg-body-tertiary m-auto p-5 my-5">
+  <nav class="nav flex-column got-nav d-inline-flex mt-4">
+
+    <!-- User profile  -->
+     {% if user_id and request.user.is_authenticated %}
+     <a class="nav-link fs-1 mt-5 p-3" href="{% url 'profile' user_id=user.id %}"><strong>{{ user }}</strong></a>
+     {% else %}
+     <a class="nav-link fs-1 mt-5 p-3" href=""><strong>{{ user }}</strong></a>
+     {% endif %}  
+     
+     <!-- User Management dropdown -->
+     {% if user_id %}
+      <li class="nav-item dropright">
+       <a class="nav-link dropdown-toggle icon mt-2" href="{% url 'user_acct' user_id=user.id %}" role="button">
+         <i class="fa-solid fa-user-gear"></i> Account Management
+        </a>
+      </li>
+      {% endif %}  
+    
+    <!-- User Management dropdown -->
+    {% if request.user.is_superuser %}
+    <li class="nav-item dropright">
+      <a class="nav-link dropdown-toggle icon mt-2" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-users-gear"></i> Users Management
+      </a>
+      <div class="dropdown-menu">
+        <!-- Users sub-dropdown -->
+        <a href="" class="dropdown-item dropright">
+          <a class="nav-link dropdown-toggle icon" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-user"></i> Users
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item category-link icon" data-category="client" href="#">Clients</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="staff" href="#">Staff</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="vendor" href="#">Vendors</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="agent" href="#">Agents</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="contractor" href="#">Contractors</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="subcontractor" href="#">Subcontractors</a>
+          </div>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" href="{% url 'create_user' %}">New User</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" aria-current="page" href="{% url 'new_category' %}">New Category</a>
+      </div>
+    </li>
+    {% endif %}
+    <!-- Estate Management dropdown -->
+    <li class="nav-item dropright">
+      <a class="nav-link dropdown-toggle icon mt-2" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-wrench"></i> Estate Management
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item icon" href="{% url 'estate' %}"><i class="fa-solid fa-house-signal"></i> Estates</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" href="{% url 'bank' %}"><i class="fa-solid fa-building-columns"></i> Company Accounts</a>
+        {% if request.user.is_superuser %}
+        <div class="dropdown-divider"></div>
+        <a class="nav-link icon" aria-current="page" href="{% url 'create_project' %}">New Project</a>
+        {% endif %}
+      </div>
+    </li>
+  </nav>
+
+  <!-- Main Content Section -->
+  <section id="lumen-deo" class="container pt-5">
+
+    {% if msg %} 
+    <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-danger">
+      <h1>{{ msg.title }}</h1>
+      <p class="contact-label">{{ msg.body }}</p>
+    </section>
+    {% elif info %} 
+    <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-info">
+      <h1>{{ info.title }}</h1>
+      <p class="contact-label">{{ info.body }}</p>
+    </section>
+    {% endif %}
+    <section class="estate-div row bg-white pt-5 justify-content-between g-4 p-3" id="estate-div">
+      <section class="div-1 p-2 col-4" id="div-1">
+        <div class="my-bg-green p-4">
+          <h2 class="fs-4 text-white">Estates</h2>
+          <p class="text-white-50 fs-5">List of available Estates</p>
+        </div>
+        <div class="my-bg-green">
+          <div class="list-group border-white">
+            {% for project in projects %}
+            <a href="#" class="list-group-item my-bg-green list-group-item-action border-white text-white category-link" data-category="{{ project.id }}">
+              {{ project.title }}
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    
+  {% for project in projects %}
+      <section class="div-2 bg-body-tertiary shadow p-2 col-8 category-section" id="{{ project.id }}" style="display: none;">
+        <nav class="">
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link text-my-green active" id="nav-estate-tab" data-toggle="tab" href="#nav-estate-{{ project.id }}" role="tab" aria-controls="nav-estate-{{ project.id }}" aria-selected="true">Estate Details</a>
+            <a class="nav-item nav-link text-my-green" id="nav-project-tab" data-toggle="tab" href="#nav-project-{{ project.id }}" role="tab" aria-controls="nav-project-{{ project.id }}" aria-selected="false">Prototypes</a>
+            <a class="nav-item nav-link text-my-green" id="nav-house-tab" data-toggle="tab" href="#nav-house-{{ project.id }}" role="tab" aria-controls="nav-house-{{ project.id }}" aria-selected="false">Houses</a>
+            <a class="nav-item nav-link text-my-green" id="nav-sold-tab" data-toggle="tab" href="#nav-sold-{{ project.id }}" role="tab" aria-controls="nav-sold-{{ project.id }}" aria-selected="false">Sold Units</a>
+            <a class="nav-item nav-link text-my-green" id="nav-preview-tab" data-toggle="tab" href="#nav-preview-{{ project.id }}" role="tab" aria-controls="nav-preview-{{ project.id }}" aria-selected="false">Available Units</a>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent-{{ project.id }}">
+          <div class="tab-pane fade show active" id="nav-estate-{{ project.id }}" role="tabpanel" aria-labelledby="nav-estate-tab">
+            <div class="d-flex flex-column mt-4">
+              <div class="d-flex flex-column">
+                <h5 class="ps-2">{{ project.title }}</h5>
+                <p class="tab-name ps-2">Estate Details</p>
+              </div>
+              <section class="container-fluid">
+                <div class="row row-cols-1 pt-4">
+                  <img src="{{ project.display_img.url }}" alt="{{ project.title }}" class="proto-img">
+                </div>
+                <div class="row row-cols-1 pt-4">
+                  <p class="tab-name ps-2 mb-0"><strong>Estate Name:</strong> {{ project.title }}</p>
+                  <p class="tab-name ps-2 mb-0"><strong>Estate Location:</strong> {{ project.location }}</p>
+                  <p class="tab-name ps-2"><strong>Land Size:</strong> {{ project.size|floatformat:"2g" }} sqm</p>
+                  <p class="tab-name ps-2 text-justify">{{ project.description }}</p>
+                  <p class="tab-name ps-2">
+                    <strong>Estate Features:</strong> <span><ol class="ps-4 mt-n3 mb-0">
+                      {% for feature in project.features %}
+                      <li>
+                        {{ feature }}
+                      </li>
+                      {% endfor %}
+                    </ol></span>
+                  </p>
+                  <p class="tab-name ps-2 mb-0"><strong>Type of Title Document:</strong> {{ project.title_doc_type }}</sp> 
+                  <p class="tab-name ps-2 mb-0"><strong>Title Document Number:</strong> {{ project.title_doc_num }}</p> 
+                  <p class="tab-name ps-2 mb-0"><strong>File Number:</strong> {{ project.title_doc_file_num }}</p> 
+                  <p class="tab-name ps-2 mb-0"><strong>Registration Date:</strong> {{ project.title_doc_date }}</p>
+                  <p class="tab-name ps-2 mb-0"><strong>Volume:</strong> {{ project.title_doc_vol }}</p>
+                  <p class="tab-name ps-2 mb-0"><strong>Page:</strong> {{ project.title_doc_page }}</p>
+                  <p class="tab-name ps-2"><strong>Registration Number:</strong> {{ project.title_doc_reg_num }}</p>
+                  <p class="tab-name ps-2 mb-0"><strong>Landowner:</strong> {{ project.landowner }}</p>
+                  <p class="tab-name ps-2 mb-0"><strong>Landowner's Address:</strong> {{ project.landowner_address }}</p>
+                  <p class="tab-name ps-2 mb-0"><strong>Sharing Formular:</strong> {{ project.developers_share }}%</p>
+
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="nav-project-{{ project.id }}" role="tabpanel" aria-labelledby="nav-project-tab">
+            <div class="d-flex flex-column mt-4">
+              <div class="d-flex flex-column">
+                <h5 class="ps-2">{{ project.title }}</h5>
+                <p class="tab-name ps-2">Prototypes</p>
+              </div>
+              <section class="container-fluid pt-4">
+                <div class="row row-cols-1 pt-4">
+                  <ul class="list-group">
+                    {% for prototype in project.project_prototypes.all %}
+                    <li class="list-group-item">
+                      {{ prototype }}
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                {% if request.user.is_superuser %}
+                <div class="row row-cols-1 pt-4">
+                  <a href="{% url 'create_prototype' %}" class="btn login-btn"> Create a prototype
+                  </a>
+                </div>
+                {% endif %}
+              </section>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="nav-house-{{ project.id }}" role="tabpanel" aria-labelledby="nav-house-tab">
+            <div class="d-flex flex-column mt-4">
+              <div class="d-flex flex-column">
+                <h5 class="ps-2">{{ project.title }}</h5>
+                <p class="tab-name ps-2">Total Housing Units</p>
+              </div>
+              <section class="container-fluid pt-4">
+                <div class="row row-cols-1 pt-4">
+                    <table class="table-striped mb-5">
+                      <thead>
+                        <tr>
+                            <th>Prototype</th>
+                            <th>House Number</th>
+                            <th>Price(s) (<i class="fa-solid fa-naira-sign"></i>)</th>
+                            <th>Unit 3D</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for prototype in project.project_prototypes.all %}
+                            {% for house in prototype.unit_prototypes.all %}
+                            <tr>
+                              <td> {{ house.prototype.prototype_name }} </td>
+                              <td> {{ house.house_num }} </td>
+                              <td> {{ house.subscri_price|floatformat:"2g" }} </td>
+                              <td class="proto-imgs"><img src="{{ house.prototype.prototype_img.url }}" alt="{{ house.prototype.prototype_title}}" class="proto-img"></td>
+                            </tr>
+                            {% endfor %}
+                          {% endfor %}
+                        </tbody>
+                      </table>
+      
+                </div>
+                {% if request.user.is_superuser %}
+                <div class="row row-cols-1 pt-4">
+                  <a href="{% url 'create_unit' proj_id=project.id %}" class="btn login-btn"> Create a unit
+                  </a>
+                </div>
+                {% endif %}
+              </section>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="nav-sold-{{ project.id }}" role="tabpanel" aria-labelledby="nav-sold-tab">
+            <div class="d-flex flex-column mt-4">
+              <div class="d-flex flex-column">
+                <h5 class="ps-2">{{ project.title }}</h5>
+                <p class="tab-name ps-2">Sold Housing Units</p>
+              </div>
+              <section class="container-fluid pt-4">
+                <div class="row row-cols-1 pt-4">
+                  <table class="table-striped mb-5">
+                    <thead>
+                      <tr>
+                        <th>Prototype</th>
+                        <th>House Number</th>
+                        <th>Price(s) (<i class="fa-solid fa-naira-sign"></i>)</th>
+                        <th>Unit 3D</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for house in project.sold_houses %}
+                      <tr>
+                        <td> {{ house.house.prototype.prototype_name }} </td>
+                        <td> {{ house.house.house_num }} </td>
+                          <td> {{ house.house.subscri_price|floatformat:"2g" }} </td>
+                          <td class="proto-imgs"><img src="{{ house.house.prototype.prototype_img.url }}" alt="{{ house.house.prototype.prototype_title}}" class="proto-img"></td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                {% if request.user.is_authenticated %}
+                <div class="row row-cols-1 pt-4">
+                  <a href="{% url 'subscribe' proj_id=project.id %}" class="btn login-btn">Subscribe to a unit</a>
+                </div>
+                {% endif %}
+              </section>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="nav-preview-{{ project.id }}" role="tabpanel" aria-labelledby="nav-preview-tab">
+            <div class="d-flex flex-column mt-4">
+              <div class="d-flex flex-column">
+                <h5 class="ps-2">{{ project.title }}</h5>
+                <p class="tab-name ps-2">Available Housing Units</p>
+              </div>
+              <div class="d-flex flex-column pt-4 ps-2"> 
+                <table class="table-striped mb-5">
+                  <thead>
+                    <tr>
+                      <th>Prototype</th>
+                      <th>House Number</th>
+                      <th>Price(s) (<i class="fa-solid fa-naira-sign"></i>)</th>
+                      <th>Unit 3D</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for unit in project.avail_houses %}
+                      <tr>
+                        <td> {{ unit.prototype.prototype_name }} </td>
+                        <td> {{ unit.house_num }} </td>
+                        <td> {{ unit.subscri_price|floatformat:"2g" }} </td>
+                        <td class="proto-imgs"><img src="{{ unit.prototype.prototype_img.url }}" alt="{{ unit.prototype.prototype_title}}" class="proto-img"></td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  {% endfor %}
+    </section>    
+  </section>
+</section>
+<!-- End of Projects Section -->
+{% endblock %}
+ 

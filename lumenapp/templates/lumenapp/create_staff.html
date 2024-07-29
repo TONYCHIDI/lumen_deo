@@ -1,0 +1,132 @@
+{% extends "lumenapp/layout.html" %} 
+
+{% load static %}
+
+{% load mathfilters %}
+
+{% block body %}
+<!-- Admin Section -->
+<section class="admin d-flex bg-gray-100" id="admin">
+  <nav class="nav flex-column d-inline-flex mt-4">
+
+
+    <!-- User profile  -->
+     {% if user_id or request.user.is_authenticated %}
+      <a class="nav-link fs-1 mt-5 p-3" href="{% url 'profile' user_id=user.id %}"><strong>{{ user }}</strong></a>
+     {% else %}
+     <a class="nav-link fs-1 mt-5 p-3" href=""><strong>{{ user }}</strong></a>
+     {% endif %} 
+
+    <!-- User Category dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle icon mt-2" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-wrench"></i> User Category
+      </a>
+      <div class="dropdown-menu">
+        {% if categories %}
+        {% for category in categories %}
+        <a href="" class="dropdown-item">{{ category }}</a>
+        {% endfor %}
+        {% endif %}
+        {% if request.user.is_superuser %}
+        <div class="dropdown-divider"></div>
+        <a class="nav-link icon" aria-current="page" href="{% url 'new_category' %}">Create User Category</a>
+        {% endif %}
+      </div>
+    </li>
+
+    <!-- Users dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle icon mt-3" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-user"></i> Users
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item category-link" data-category="client" href="#">Clients</a>
+        <a class="dropdown-item category-link" data-category="staff" href="#">Staff</a>
+        <a class="dropdown-item category-link" data-category="vendor" href="#">Vendors</a>
+        <a class="dropdown-item category-link" data-category="agent" href="#">Agents</a>
+        <a class="dropdown-item category-link" data-category="contractor" href="#">Contractors</a>
+        <a class="dropdown-item category-link" data-category="subcontractor" href="#">Sub Contractors</a>
+        {% if request.user.is_superuser %}
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" href="{% url 'create_user' %}">Create New User</a>
+        {% endif %}
+      </div>
+    </li>
+
+    <!-- Projects dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle icon mt-2" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-wrench"></i> Projects
+      </a>
+      <div class="dropdown-menu">
+        {% if projects %}
+        {% for project in projects %}
+        <a class="dropdown-item" href="{% url 'project_item' id=project.id %}">{{ project.title }}</a>
+        {% endfor %}
+        {% endif %}
+        {% if request.user.is_superuser %}
+        <div class="dropdown-divider"></div>
+        <a class="nav-link icon" aria-current="page" href="{% url 'create_project' %}">Create New Project</a>
+        {% endif %}
+      </div>
+    </li>
+
+    <!-- Prototypes dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle icon mt-2" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-house-signal"></i> Prototypes
+      </a>
+      <div class="dropdown-menu">
+        {% if prototypes %}
+        {% for prototype in prototypes %}
+        <a class="dropdown-item" href="{% url 'prototype_item' id=prototype.id %}">{{ prototype.prototype_name }}</a>
+        {% endfor %}
+        {% endif %}
+        {% if request.user.is_superuser %}
+        <div class="dropdown-divider"></div>
+        <a class="nav-link icon" href="{% url 'create_prototype' %}">Create A Prototype</a>
+        {% endif %}
+      </div>
+    </li>
+    
+    <!-- Create House menu -->
+    {% if request.user.is_superuser %}
+    <a class="nav-link icon mt-2" href="{% url 'create_unit' %}" role="button">
+      <i class="fa-solid fa-house-fire"></i> Create House
+    </a>
+    {% endif %}
+    
+    <!-- Subscription menu -->
+    {% for house in houses %}
+    <a class="nav-link icon mt-2" href="{% url 'subscribe' id=house.id%}" role="button">
+      <i class="fa-solid fa-house-lock"></i> Subscribe
+    </a>
+    {% endfor %}
+  </nav>
+
+  <!-- Main Content Section -->
+  <section id="lumen-deo" class="container-fluid effect-section pt-5 mt-5">
+
+    <!-- Admin Dashboard -->
+    <a class="text-decoration-none text-danger" href="{% url 'dashboard' %}"><h1 class="pt-5 mt-5 text-center"><i class="fa-solid fa-arrow-left"></i> Dashboard</h1></a>
+    {% if msg %} 
+      <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-danger">
+        <h1>{{ msg.title }}</h1>
+        <p class="contact-label">{{ msg.body }}</p>
+      </section>
+    {% endif %}
+
+    <section id="proj_upload" class="container m-auto px-5">
+      <div class="mt-2"><h2 class="login-text py-5">Create a staff</h2></div>
+    
+        <form action="{% url 'create_staff' user_id=user_id %}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-5" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-fade btn-border-none">Create Staff</button>
+        </form>
+    </section>
+  </section>
+</section>
+<!-- End of Company Profile Summary Section -->
+{% endblock %}

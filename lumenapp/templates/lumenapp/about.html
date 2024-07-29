@@ -1,0 +1,105 @@
+{% extends "lumenapp/layout.html" %} 
+
+{% block body %}
+
+{% load static %}
+
+<!-- About Container Section -->
+<section class="about-container about" id="about">
+    <section class="text-center p-5">
+        <h2 class="about-head">We are born to Provide Shelter for the Masses.</h2>
+        <p class="about-para px-5 pt-4">We are a Real Estate Development and Construction Company. Our core goal is the provision of need-based homes for teeming Nigerian population and infrastructural deliveries. We have the spread, expertise and capacity to deliver on any set project in the country and beyond.</p>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about1" class="about1 row">
+        <div class="abt1-img col-lg-6 col-md-12 pb-md-5 align-content-md-center">
+            <img class="about1-img" src="{% static 'lumenapp/img/avatar/5-bed-fully-det-dup.jpg' %}" alt="About Image">
+        </div>
+        <div class="about1-txts col-lg-6 col-md-12 text-secondary">
+            <div class="text-about">
+                <p class="prof-name">Lumen Estate incorporates proven, professional state of the art techniques specializing in the marketing, listing and selling of new luxury homes, residential communities, condominiums, home-sites, undeveloped land, commercial and investment opportunities.</p>
+            </div>
+            <div class="text-about mt-2">
+                <p class="prof-name">We are further committed to the highest levels of utilizing objectivity and creativity to produce quality results and always seek to integrate our client needs with our technical expertise.</p>
+            </div>
+            <div class="text-about mt-2">
+                <p class="prof-name">Over the years, we have undertaken many challenging projects and accumulated skills with varying experiences in design and build solutions, project management services, building trades andrelated engineering works. We have consistently achievedclients’ satisfaction with our work by delivering on time and budget.</p>
+            </div>
+            <div class="text-about mt-2">
+                <p class="prof-name">Lumen Estate maintains a full-time staff of well-trained real estate professionals who continually strive to provide top quality service for their individual clients and customers. Lumen Estate is a creative, innovative and people-oriented organization providing individual opportunity, personal satisfaction and rewarding challenges to all members of the organisation.</p>
+            </div>
+            <div class="small about1-btn text-white" role="group">
+                <a href="{% url 'project' %}" type="button" class="btn btn-fade">Our Projects <i class="fa-solid fa-greater-than"></i></a>
+            </div>
+        </div>
+    </section>
+    <!-- End of About Section -->
+    
+    <!-- Vision & Mission Section -->
+    <section id="vision" class="vision row p-5">
+        <div class="vision1 col-lg-6 col-md-12 column-gap-5 d-flex flex-column text-center">
+            <h2 class="vision-head">Our Vision</h2>
+            <div class="vision-text mt-4">
+                <div class="small vis-img text-white" role="group">
+                    <img src="{% static 'lumenapp/img/avatar/vision.png' %}" width="150" alt="Vision Image">
+                </div>
+                <div class="text-about mt-4">
+                    <p class="prof-name">The vision of Lumen Estate is to be the foremost catalyst for transformative urban development in Nigeria, renowned for our pioneering spirit, unwavering commitment to excellence, and enduring dedication to building sustainable communities that thrive for generations to come.</p>
+
+                    <p class="prof-name">Through innovation, collaboration, and a relentless pursuit of excellence, we aim to set new standards of quality, integrity, and social responsibility in the real estate development and construction sector, driving positive change and shaping a brighter future for all.</p>
+                </div>
+            </div>
+        </div>
+        <div class="mission col-lg-6 col-md-12 column-gap-5 d-flex flex-column text-center">
+            <h2 class="vision-head">Our Mission</h2>
+            <div class="vision-text mt-4">
+                <div class="small mis-img text-white" role="group">
+                    <img src="{% static 'lumenapp/img/avatar/mission.png' %}" width="100" alt="Vision Image">
+                </div>
+                <div class="text-about mt-4">
+                    <p class="prof-name">Lumen Estate is committed to shaping Nigeria's urban landscape with innovation, integrity, and excellence.</p>
+                    
+                    <p class="prof-name">Our mission is to build sustainable communities and deliver unparalleled value to our clients through bespoke real estate development, precision civil engineering, proactive facility management, and seamless procurement processes. Guided by integrity and professionalism, we strive to exceed expectations, drive positive change, and remain at the forefront of the industry, enriching lives and fostering sustainable growth in Nigeria's built environment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of Vision & Mission Section -->
+
+    <!-- Company Profile Summary Section -->
+    <section id="company-prof-summary" class="comp-profile left-slide d-inline-flex flex-wrap w-100 bg-body-secondary justify-content-around">
+        <div class="prof-item flex-column text-center justify-content-around">
+            <i class="fa-solid fa-city prof-icon"></i>
+            <h2 class="prof-figure">{{ projects }}</h2>
+            <p class="prof-name text-secondary">Total Projects</p>
+        </div>
+        <div class="prof-item flex-column text-center justify-content-around">
+            <i class="fa-solid fa-house-circle-check prof-icon"></i>
+            <h2 class="prof-figure">{{ completed_projects }}</h2>
+            <p class="prof-name text-secondary">Projects Completed</p>
+        </div>
+        <div class="prof-item flex-column text-center justify-content-around">
+            <i class="fa-solid fa-person-shelter prof-icon"></i>
+            <h2 class="prof-figure">{{ sold_houses }}</h2>
+            <p class="prof-name text-secondary">Total Unit Allocations</p>
+        </div>
+        <div class="prof-item flex-column text-center justify-content-around">
+            <i class="fa-solid fa-users prof-icon"></i>
+            <h2 class="prof-figure">{{ users }}</h2>
+            <p class="prof-name text-secondary">Total Clients</p>
+        </div>
+        <div class="prof-item flex-column text-center justify-content-around">
+            <i class="fa-solid fa-people-roof prof-icon"></i>
+            <h2 class="prof-figure">{{ subscribers }}</h2>
+            <p class="prof-name text-secondary">Clients With Allocations</p>
+        </div>
+        <div class="prof-item flex-column text-center justify-content-around">
+            <i class="fa-regular fa-id-card prof-icon"></i>
+            <h2 class="prof-figure">{{ staff }}</h2>
+            <p class="prof-name text-secondary">Professional Staff</p>
+        </div>
+    </section>
+    <!-- End of Company Profile Summary Section -->
+</section>
+{% endblock %}

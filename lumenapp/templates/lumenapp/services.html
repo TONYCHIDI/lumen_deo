@@ -1,0 +1,106 @@
+{% extends "lumenapp/layout.html" %}
+
+{% load static %}
+
+{% block body %}
+
+<section class="services" id="services">
+    <section class="text-center p-5">
+        <h2 class="about-head">Our Core Services</h2>
+        <p class="about-para px-5 pt-4">Lumen Estate stands as a distinguished leader in the Nigerian Real Estate Development and Construction sector, dedicated to shaping urban landscapes with innovation, integrity, and excellence. Our comprehensive range of services includes real estate development, civil engineering and construction works, facility management, and general contracts and merchandise, each contributing to our mission of building sustainable communities and delivering unparalleled value to our clients.</p>
+    </section>
+
+    <!-- Estate Development Section -->
+    <section id="estate" class="service1 text-center text-white">
+        <h2 class="text-center mb-5">Real Estate Development</h2>
+        <div class="estate row">
+            <div class="about1-img col-lg-6 col-md-12 p-3">
+                <img src="{% static 'lumenapp/img/avatar/jahi-2207.jpeg' %}" alt="About Image" width="500px">
+            </div>
+            <div class="col-lg-6 col-md-12 p-3">
+                <div class="text-about">
+                    <p class="prof-name">Our primary objective in real estate development is to create exceptional residential, commercial, and mixed-use properties that elevate living standards and contribute to the socio-economic growth of our communities. We conceptualize and execute projects that blend modern design, functionality, and environmental stewardship. From upscale residential estates to cutting-edge commercial complexes, our developments are tailored to meet the evolving needs and aspirations of our clients and the local market.</p>
+                </div>
+                <div class="text-about mt-2">
+                    <p class="prof-name">We are involved in:
+                        <ul>
+                            <li>Commercial Buildings,</li>
+                            <li>Low cost/Mass housing,</li>
+                            <li>Mixed-use Buildings,</li>
+                            <li>Property Purchases & Partnership Opportunities,</li>
+                            <li>Improved land parcel sales,</li>
+                            <li>Investment acquisition,</li>
+                            <li>Construction, and</li>
+                            <li>build-to-suits for sale and lease purposes.</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="small about1-btn" role="group">
+                    <a href="{% url 'project' %}" type="button" class="btn btn-outline-light proj-text">Our Projects <i class="fa-solid fa-greater-than"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of Estate Development Section -->
+
+    <!-- Civil Engineering Section -->
+    <section id="civil" class="service2 text-center text-dark">
+        <h2 class="text-center mb-5">Civil Engineering & Construction Works</h2>
+        <div class="civil row">
+            <div class="col-lg-6 col-md-12 p-3 m-auto">
+                <div class="text-about">
+                    <p class="prof-name text-secondary">At Lumen-Deo, we excel in executing a diverse range of civil engineering and construction projects, encompassing infrastructure development, road construction, water supply systems, drainage solutions, and more. Our team of seasoned professionals leverages state-of-the-art technologies and best practices to deliver projects that meet the highest standards of quality, safety, and sustainability. From project inception to completion, we prioritize efficiency, reliability, and cost-effectiveness to ensure the successful realization of our clients' visions.</p>
+                </div>
+                <div class="text-about text-secondary mt-2">
+                    <p class="prof-name">We plan, design and oversee construction and maintenance of building structures and facilities.</p>
+                </div>
+            </div>
+            <div class="svc-img col-lg-6 col-md-12 p-3">
+                <img src="{% static 'lumenapp/img/avatar/5-bed-fully-det-dup.jpg' %}" alt="About Image" width="500px">
+            </div>
+        </div>
+    </section>
+    <!-- End of Civil Engineering Section -->
+
+    <!-- Facility Management Section -->
+    <section id="mgt" class="service1 mgt text-center text-white">
+        <h2 class="text-center mb-5">Facility Management</h2>
+        <div class="civil row">
+            <div class="svc-img col-lg-6 col-md-12 p-3">
+                <img src="{% static 'lumenapp/img/avatar/5-bed-fully-det-dup.jpg' %}" alt="About Image" width="500px">
+            </div>
+            <div class="col-lg-6 col-md-12 p-3">
+                <div class="text-about">
+                    <p class="prof-name">Beyond the completion of projects, Lumen-Deo offers comprehensive facility management services aimed at ensuring the optimal performance, functionality, and longevity of built environments. Our tailored solutions encompass preventive maintenance, energy management, security services, and more, all geared towards enhancing the value and performance of our clients' assets. With a focus on proactive management and customer-centric service, we enable our clients to maximize their investments and achieve their operational goals with confidence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of Facility Management Section -->
+
+    <!-- General Merchandise Section -->
+    <section id="general" class="general service2 text-center">
+        <h2 class="text-center mb-5">General Contracts and Merchandise</h2>
+        <div class="civil row">
+            <div class="col-lg-6 col-md-12 p-3">
+                <div class="text-about">
+                    <p class="prof-name text-secondary">In addition to our core services, Lumen-Deo offers general contracting services for various projects across different sectors. Whether it's refurbishing existing structures, constructing industrial facilities, or executing interior fit-outs, we possess the expertise and resources to undertake projects of any scale and complexity. Furthermore, we engage in the trading of construction materials, equipment, and merchandise, facilitating seamless procurement processes and ensuring the timely availability of superior-quality products at competitive prices.</p>
+                </div>
+            </div>
+            <div class="svc-img col-lg-6 col-md-12 p-3">
+                <img src="{% static 'lumenapp/img/avatar/5-bed-fully-det-dup.jpg' %}" alt="About Image" width="500px">
+            </div>
+        </div>
+    </section>
+    <!-- End of General Merchandise Section -->
+
+    <!--  General Aim Section -->
+    <section id="aim" class="aim">
+        <div class="service2 inner-aim">
+            <p class="prof-name text-danger">At Lumen Estate, we are guided by a steadfast commitment to integrity, professionalism, and customer satisfaction. Through our comprehensive suite of services, we strive to not only meet but exceed the expectations of our clients, partners, and stakeholders, driving positive change and sustainable growth in Nigeria's built environment. With a focus on innovation, collaboration, and continuous improvement, we aim to remain at the forefront of the industry, delivering excellence in every aspect of our operations.</p>
+        </div>
+    </section>
+    <!-- End of General Aim Section -->
+
+</section>
+{% endblock %}

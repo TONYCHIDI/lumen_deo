@@ -1,0 +1,130 @@
+{% extends "lumenapp/layout.html" %} 
+
+{% load static %}
+
+{% block body %}
+<!-- Introductory Section -->
+<section id="lumen-deo" class="container-fluid effect-section bg-gray-100">
+    <div class="pt-5"></div>
+    <div class="effect bg-lumen effect-skew"></div>
+    <div class="particles-box" id="particles-box"></div>
+    <div class="container position-relative">
+    <div class="row min-vh-100 align-items-center py-5">
+        <div class="col-12 col-lg-5 col-xl-4 py-5 wow">
+            <h1 class="home-title text-white mb-3"></h1>
+            <p class="lead text-white-50">
+            Lumen App is a real estate development and construction
+            project that sets a new standard for the industry. It’s a project that
+            showcases our innovation and uniqueness as a company. It’s a project
+            that we are proud of and excited about.
+            </p>
+            <span class="small text-white-50 pb-5" role="group">
+            <a href="{% url 'about' %}" type="button" class="btn btn-outline-light proj-text mt-5 me-2">About Us <i class="fa-solid fa-greater-than"></i></a>
+            <span class="small pb-5" role="group">            
+            {% if user.is_authenticated %}
+            </span>
+            <a href="{% url 'dashboard' %}" type="button" class="btn btn-light proj-text text-my-green mt-5">Dashboard</a>
+            </span>
+            {% endif %}
+        </div>
+        <div
+            class="col-lg-7 col-xl-8 text-center home_banner">
+            <img
+            class="lg-img-140 banner-img"
+            src="{% static 'lumenapp/img/home-svg.svg' %}"
+            alt="HOME BANNER"
+            />
+        </div>
+    </div>
+  </div>
+</section>
+<!-- End of Introductory Section -->
+
+<!-- Lumen Pitch Section -->
+<section id="lumen" class="estate-decription m-5">
+    <section id="carouselExampleFade" class="carousel slided carousel-fade" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="proj-flex d-flex carousel-item active">
+                <div class="flex-inline w-50">
+                    <h3 class="text py-5"><i class="fa-solid fa-house"></i> Real Estate</h3>
+                    <h1 class="text1 py-5">Lumen App</h1>
+                    <p class="text3 px-5 mb-5">An Ideal Place for Your Dream Home.</p>
+                </div>
+                <div class="flex-inline w-50">
+                    <img src="{% static 'lumenapp/img/home_banner/5_bed_fully_det.jpg' %}" class="d-block w-100" alt="Fully Detached Duplex">
+                </div>
+            </div>
+            <div class="proj-flex d-flex carousel-item">
+                <div class="flex-inline w-50">
+                    <h3 class="text py-5"><i class="fa-solid fa-house"></i> Real Estate</h3>
+                    <h1 class="text1 py-5">At Lumen City</h1>
+                    <p class="text3 px-5 mb-5">You will Experience Luxury and Elegance.</p>
+                </div>
+                <div class="flex-inline w-50">
+                    <img src="{% static 'lumenapp/img/home_banner/4_bed_semi_det.jpg' %}" class="d-block w-100" alt="Semi Detached Duplex">
+                </div>
+            </div>
+            <div class="proj-flex d-flex carousel-item">
+                <div class="flex-inline w-50">
+                    <h3 class="text py-5"><i class="fa-solid fa-house"></i> Real Estate</h3>
+                    <h1 class="text1 py-5">Lumen City</h1>
+                    <p class="text3 px-5 mb-5">An Estate Built Just for You.</p>
+                </div>
+                <div class="flex-inline w-50">
+                    <img src="{% static 'lumenapp/img/home_banner/4_bed_terr_dup.jpg' %}" class="d-block w-100" alt="Terraced Duplex" >
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </section>
+    <div class="small d-flex justify-content-center dtext-white p-3" role="group">
+        <a href="{% url 'project' %}" type="button" class="btn btn-fade">Our Projects <i class="fa-solid fa-greater-than"></i></a>
+    </div>
+</section>
+<!-- End of Pitch Section -->
+
+<!-- Company Profile Summary Section -->
+<section id="company-prof-summary" class="comp-profile left-slider d-inline-flex flex-wrap w-100 bg-body-secondary justify-content-around">
+    <div class="prof-item flex-column text-center justify-content-around">
+        <i class="fa-solid fa-city prof-icon"></i>
+        <h2 class="prof-figure">{{ projects }}</h2>
+        <p class="prof-name text-secondary">Total Projects</p>
+    </div>
+    <div class="prof-item flex-column text-center justify-content-around">
+        <i class="fa-solid fa-house-circle-check prof-icon"></i>
+        <h2 class="prof-figure">{{ completed_projects }}</h2>
+        <p class="prof-name text-secondary">Projects Completed</p>
+    </div>
+    <div class="prof-item flex-column text-center justify-content-around">
+        <i class="fa-solid fa-person-shelter prof-icon"></i>
+        <h2 class="prof-figure">{{ sold_houses }}</h2>
+        <p class="prof-name text-secondary">Total Unit Allocations</p>
+    </div>
+    <div class="prof-item flex-column text-center justify-content-around">
+        <i class="fa-solid fa-users prof-icon"></i>
+        <h2 class="prof-figure">{{ users }}</h2>
+        <p class="prof-name text-secondary">Total Clients</p>
+    </div>
+    <div class="prof-item flex-column text-center justify-content-around">
+        <i class="fa-solid fa-people-roof prof-icon"></i>
+        <h2 class="prof-figure">{{ subscribers }}</h2>
+        <p class="prof-name text-secondary">Clients With Allocations</p>
+    </div>
+    <div class="prof-item flex-column text-center justify-content-around">
+        <i class="fa-regular fa-id-card prof-icon"></i>
+        <h2 class="prof-figure">{{ staff }}</h2>
+        <p class="prof-name text-secondary">Professional Staff</p>
+    </div>
+</section>
+<!-- End of Company Profile Summary Section -->
+
+<!-- Home Banner -->
+<!-- </div> -->
+{% endblock %}

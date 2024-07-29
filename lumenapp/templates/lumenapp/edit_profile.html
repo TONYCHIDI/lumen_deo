@@ -1,0 +1,94 @@
+{% extends "lumenapp/layout.html" %} 
+
+{% load static %}
+
+{% load mathfilters %}
+
+{% block body %}
+<!-- Admin Section -->
+<section class="admin d-flex bg-gray-100" id="admin">
+  <nav class="nav flex-column d-inline-flex mt-4">
+
+    <!-- User profile  -->
+     {% if user_id or request.user.is_authenticated %}
+      <a class="nav-link fs-1 mt-5 p-3" href="{% url 'profile' user_id=user.id %}"><strong>{{ user }}</strong></a>
+     {% else %}
+     <a class="nav-link fs-1 mt-5 p-3" href=""><strong>{{ user }}</strong></a>
+     {% endif %} 
+  
+    <!-- User Management dropdown -->
+    <li class="nav-item dropright">
+      <a class="nav-link dropdown-toggle icon mt-2" href="{% url 'user_acct' user_id=user.id %}" role="button">
+        <i class="fa-solid fa-user-gear"></i> Account Management
+      </a>
+    </li>
+  
+    <!-- User Management dropdown -->
+    <li class="nav-item dropright">
+      <a class="nav-link dropdown-toggle icon mt-2" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-users-gear"></i> Users Management
+      </a>
+      <div class="dropdown-menu">
+        {% if author.is_superuser %}
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" href="{% url 'create_user' %}">New User</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" aria-current="page" href="{% url 'new_category' %}">New Category</a>
+        {% endif %}
+      </div>
+    </li>
+
+    <!-- Estate Management dropdown -->
+    <li class="nav-item dropright">
+      <a class="nav-link dropdown-toggle icon mt-2" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-wrench"></i> Estate Management
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item icon" href="{% url 'project' %}"><i class="fa-solid fa-house-signal"></i> Estates</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" href="{% url 'bank' %}"><i class="fa-solid fa-building-columns"></i> Company Accounts</a>
+        {% if author.is_superuser %}
+        <div class="dropdown-divider"></div>
+        <a class="nav-link icon" aria-current="page" href="{% url 'create_project' %}">New Project</a>
+        {% endif %}
+      </div>
+    </li>
+  </nav>
+
+  <!-- Main Content Section -->
+  <section id="lumen-deo" class="container-fluid effect-section pt-5 mt-5">
+
+      <!-- User Dashboard -->
+      <a class="text-decoration-none text-danger" href="{% url 'profile' user_id=user.id %}"><h1 class="pt-5 mt-5 text-center"><i class="fa-solid fa-arrow-left"></i> Profile</h1></a>
+      {% if msg %} 
+      <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-danger">
+          <h1>{{ msg.title }}</h1>
+          <p class="contact-label">{{ msg.body }}</p>
+        </section>
+      {% elif info %} 
+      <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-info">
+          <h1>{{ info.title }}</h1>
+          <p class="contact-label">{{ info.body }}</p>
+        </section>
+      {% endif %}
+      
+      
+      <section id="proj_upload" class="container m-auto px-5">
+          <div class="mt-2"><h2 class="login-text py-5">Profile Update</h2></div>
+          
+          <form action="{% url 'edit_profile' user_id=request.user.id %}" class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-3 mb-5" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            
+            {% if client_form %} 
+                {{ client_form.as_p }}
+            {% elif agent_form %} 
+                {{ agent_form.as_p }}
+            {% endif %}
+            <button type="submit" class="btn btn-info">Update Profile</button>
+        </form>
+    </section>
+  </section>
+</section>
+<!-- End of Dashboard Section -->
+{% endblock %}

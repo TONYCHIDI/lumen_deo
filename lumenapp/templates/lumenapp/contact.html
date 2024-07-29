@@ -1,0 +1,70 @@
+{% extends "lumenapp/layout.html" %}
+
+{% load static %}
+
+{% block body %}
+
+<!-- Contact Body Section -->
+<section id="contact-container" class="contact-container d-flex flex-column flex-wrap w-100 bg-body-secondary px-5">
+    <section class="py-5">
+        <div class="ctct m-5"></div>
+        {% if msg %} 
+        <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-danger">
+          <h1>{{ msg.title }}</h1>
+          <p class="contact-label">{{ msg.body }}</p>
+        </section>
+      {% elif success %} 
+        <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-success">
+          <h1>{{ success.title }}</h1>
+          <p class="contact-label">{{ success.body }}</p>
+        </section>
+      {% endif %}
+    </section>
+    <section id="send-msg" class="send-msg py-5 d-flex justify-content-between gap-5 w-100">
+        <div class="shadow msg-div bg-body-tertiary p-5">
+            <form action="/contact" method="post">
+                {% csrf_token %}
+                <div class="mb-3 input-group w-80">
+                    <input autofocus class="form-control mx-auto w-auto" name="email" placeholder="Name (e.g Elizz John)"
+                        type="name">
+                    <span class="input-group-text"></span>
+                    <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="email" placeholder="Email (e.g user@gmail.com)"
+                        type="email">
+                </div>
+
+                <div class="mb-3 form-group">
+                    <input autocomplete="off" autofocus class="form-control mx-auto w-80" name="subject"
+                        placeholder="Subject or Title" type="text">
+                </div>
+                <div class="mb-3 form-group">
+                    <textarea name="message" class="form-control mx-auto w-80" placeholder="Your comments..." style="height: 200px"></textarea>
+                </div>
+                <button class="btn col-2 mx-auto btn-fade" type="submit">Send</button>
+            </form>
+        </div>
+        <div id="address" class="shadow address p-2 bg-body-tertiary">
+            <div class="p-5 my-bg-green">
+                <h3 class="contact-label">Our Address Info</h3>
+                <p class="foot-name mb-5"><a class="text-white-50" href="https://maps.app.goo.gl/LZodagziUN3p7BXG7">Suite S2, Alibro Atrium, Utako Abuja</a></p>
+    
+                <h3 class="contact-label">Our Contact Info</h3>
+                <p class="foot-name text-sencondary"><a class="text-white-50" href="mailto:info@lumencityestate.com">info@lumencityestate.com</a></p>
+                <p class="foot-name text-sencondary mb-5"><a class="text-white-50" href="tel:+2347030852400">+234-703-085-2400</a></p>
+                <h3 class="contact-label">Our Contact Info</h3>
+                <div class="social-media d-flex">
+                  <a href="" class="me-2"><i class="icon fa-brands fa-facebook"></i></a>
+                  <a href="" class="me-2"><i class="icon fa-brands fa-square-twitter"></i></a>
+                  <a href="" class="me-2"><i class="icon fa-brands fa-instagram"></i></a>
+                  <a href="" class="me-2"><i class="icon fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="pb-5 mx-0 px-0">
+        <div id="contact" class="shadow contact bg-body-tertiary p-2">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d1969.9835730716698!2d7.4395544!3d9.0667575!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sng!4v1720094712383!5m2!1sen!2sng" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade" width="400" height="300" ></iframe>
+        </div>
+    </section>
+</section>
+<!-- End of Contact Body Section -->
+{% endblock %}

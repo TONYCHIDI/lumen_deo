@@ -1,0 +1,140 @@
+{% extends "lumenapp/layout.html" %} {% load static %} {% block body %}
+
+<!-- General Merchandise Section -->
+<section class="section bg-gray-100">
+  <div class="container">
+    <div class="row justify-content-center gy-4">
+      <div
+        class="col-lg-8 wow fadeInUp"
+        data-wow-duration=".4s"
+        data-wow-delay="0.1s"
+        style="
+          visibility: visible;
+          animation-duration: 0.4s;
+          animation-delay: 0.1s;
+          animation-name: fadeInUp;
+        "
+      >
+        <div class="bg-body shadow p-4 p-lg-6">
+          <div class="pb-4"><h5 class="m-0">Contact Us</h5></div>
+          <form
+            class="rd-mailform"
+            data-form-output="form-output-global"
+            data-form-type="contact"
+            method="post"
+            action="../assets/vendor/mail/bat/rd-mailform.php"
+            novalidate="novalidate"
+          >
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label class="form-label rd-input-label focus not-empty"
+                    >Name</label
+                  >
+                  <input
+                    id="contact-name"
+                    type="text"
+                    name="name"
+                    placeholder="Rachel Roth"
+                    data-constraints="@Required"
+                    class="form-control form-control-has-validation form-control-last-child"
+                  /><span class="invalid-feedback"></span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label class="form-label rd-input-label focus not-empty"
+                    >Email address</label
+                  >
+                  <input
+                    id="contact-email"
+                    type="email"
+                    name="email"
+                    placeholder="name@example.com"
+                    data-constraints="@Required"
+                    class="form-control form-control-has-validation form-control-last-child"
+                  /><span class="invalid-feedback"></span>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group mb-3">
+                  <label class="form-label rd-input-label focus not-empty"
+                    >Comment</label
+                  >
+                  <textarea
+                    class="form-control form-control-has-validation form-control-last-child"
+                    id="contact-message"
+                    name="message"
+                    rows="3"
+                    placeholder="Hi there, I would like to ..."
+                    data-constraints="@Required"
+                  ></textarea
+                  ><span class="invalid-feedback"></span>
+                </div>
+              </div>
+              <div class="col-md-12 pt-2">
+                <button class="btn btn-primary" type="submit" name="send">
+                  Create my account
+                </button>
+                <div class="snackbars" id="form-output-global"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div
+        class="col-lg-4 wow fadeInUp animated"
+        data-wow-duration=".4s"
+        data-wow-delay="0.1s"
+        style="
+          visibility: visible;
+          animation-duration: 0.4s;
+          animation-delay: 0.1s;
+          animation-name: fadeInUp;
+        "
+      >
+        <div class="bg-body p-2 shadow h-100 ms-xl-6">
+          <div class="py-5 px-4 bg-primary h-100">
+            <h5 class="h6 text-white mb-2">Our Address Info</h5>
+            <p class="text-white text-opacity-65 mb-5">
+              2 Embarcadero Center, San Francisco, CA 94111 USA
+            </p>
+            <h5 class="h6 text-white mb-2">Our contact info</h5>
+            <p class="mb-2">
+              <a class="link-light" href="mailto:support@domain.com"
+                >support@domain.com</a
+              >
+            </p>
+            <p class="m-0">
+              <a class="link-light" href="tel:+18005551212"
+                >+1 (800) 555-1212</a
+              >
+            </p>
+            <h5 class="h6 text-white mb-3 mt-5">Our contact info</h5>
+            <div class="nav">
+              <a class="icon-sm bg-light rounded-circle me-2" href="#"
+                ><i class="bi-facebook"></i> </a
+              ><a class="icon-sm bg-light rounded-circle me-2" href="#"
+                ><i class="bi-twitter"></i> </a
+              ><a class="icon-sm bg-light rounded-circle me-2" href="#"
+                ><i class="bi-instagram"></i> </a
+              ><a class="icon-sm bg-light rounded-circle me-2" href="#"
+                ><i class="bi-linkedin"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-6 p-3 bg-body shadow">
+      <div class="ratio ratio-21x9">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3151.840107317064!2d144.955925!3d-37.817214!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb6899234e561db11!2sEnvato!5e0!3m2!1sen!2sin!4v1520156366883"
+          allowfullscreen=""
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End of General Merchandise Section -->
+{% endblock %}

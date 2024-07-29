@@ -1,0 +1,101 @@
+{% extends "lumenapp/layout.html" %} 
+
+{% load static %}
+
+{% load mathfilters %}
+
+{% block body %}
+<!-- Admin Section -->
+<section class="admin d-flex bg-gray-100" id="admin">
+  <nav class="nav flex-column d-inline-flex mt-4">
+
+    <!-- User profile  -->
+     {% if user_id or request.user.is_authenticated %}
+      <a class="nav-link fs-1 mt-5 p-3" href="{% url 'profile' user_id=user.id %}"><strong>{{ user }}</strong></a>
+     {% else %}
+     <a class="nav-link fs-1 mt-5 p-3" href=""><strong>{{ user }}</strong></a>
+     {% endif %} 
+    <!-- User Management dropdown -->
+    <li class="nav-item dropright">
+      <a class="nav-link dropdown-toggle icon mt-2" href="{% url 'user_acct' user_id=user.id %}" role="button">
+        <i class="fa-solid fa-user-gear"></i> Account Management
+      </a>
+    </li>
+    
+    
+    <!-- User Management dropdown -->
+    {% if request.user.is_superuser %}
+    <li class="nav-item dropright">
+      <a class="nav-link dropdown-toggle icon mt-2" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-users-gear"></i> Users Management
+      </a>
+      <div class="dropdown-menu">
+        <!-- Users sub-dropdown -->
+        <a href="" class="dropdown-item dropright">
+          <a class="nav-link dropdown-toggle icon" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-user"></i> Users
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item category-link icon" data-category="client" href="#">Clients</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="staff" href="#">Staff</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="vendor" href="#">Vendors</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="agent" href="#">Agents</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="contractor" href="#">Contractors</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="subcontractor" href="#">Subcontractors</a>
+          </div>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" href="{% url 'create_user' %}">New User</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" aria-current="page" href="{% url 'new_category' %}">New Category</a>
+      </div>
+    </li>
+    {% endif %}
+
+    <!-- Estate Management dropdown -->
+    <li class="nav-item dropright">
+      <a class="nav-link dropdown-toggle icon mt-2" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-wrench"></i> Estate Management
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item icon" href="{% url 'project' %}"><i class="fa-solid fa-house-signal"></i> Estates</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" href="{% url 'bank' %}"><i class="fa-solid fa-building-columns"></i> Company Accounts</a>
+        {% if request.user.is_superuser %}
+        <div class="dropdown-divider"></div>
+        <a class="nav-link icon" aria-current="page" href="{% url 'create_project' %}">New Project</a>
+        {% endif %}
+      </div>
+    </li>
+  </nav>
+
+  <!-- Main Content Section -->
+  <section id="lumen-deo" class="container-fluid effect-section pt-5 mt-5">
+
+    <!-- Admin Dashboard -->
+    <a class="text-decoration-none text-danger" href="{% url 'dashboard' %}"><h1 class="pt-5 mt-5 text-center"><i class="fa-solid fa-arrow-left"></i> Dashboard</h1></a>
+    {% if msg %} 
+      <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-danger">
+        <h1>{{ msg.title }}</h1>
+        <p class="contact-label">{{ msg.body }}</p>
+      </section>
+    {% endif %}
+
+    <section id="proj_upload" class="container m-auto px-5">
+      <div class="mt-2"><h2 class="login-text py-5">Create a Subcontractor</h2></div>
+    
+        <form action="{% url 'create_vendor' user_id=user_id %}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-5" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-fade btn-border-none">Create Subcontractor</button>
+        </form>
+    </section>
+  </section>
+</section>
+<!-- End of Company Profile Summary Section -->
+{% endblock %}

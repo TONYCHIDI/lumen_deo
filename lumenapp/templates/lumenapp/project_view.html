@@ -1,0 +1,118 @@
+<!-- project.html file -->
+
+{% extends "lumenapp/layout.html" %}
+
+{% load static %}
+
+{% block body %}
+
+
+<!-- Lumen Projects Section -->
+<section id="projects" class="project-container d-flex bg-body-tertiary m-auto p-5 my-5">
+  <nav class="nav flex-column got-nav d-inline-flex mt-4">
+
+    <!-- User profile  -->
+     {% if user_id or request.user.is_authenticated %}
+     <a class="nav-link fs-1 mt-5 p-3" href="{% url 'profile' user_id=user.id %}"><strong>{{ user }}</strong></a>
+     {% else %}
+     <a class="nav-link fs-1 mt-5 p-3" href=""><strong>{{ user }}</strong></a>
+     {% endif %} 
+     
+     <!-- User Management dropdown -->
+     {% if user_id or request.user.is_authenticated %}
+     <li class="nav-item dropright">
+       <a class="nav-link dropdown-toggle icon mt-2" href="{% url 'user_acct' user_id=user.id %}" role="button">
+         <i class="fa-solid fa-user-gear"></i> Account Management
+        </a>
+      </li>
+      {% endif %} 
+  
+    <!-- User Management dropdown -->
+    {% if request.user.is_superuser and user_id %}
+    <li class="nav-item dropright">
+      <a class="nav-link dropdown-toggle icon mt-2" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-users-gear"></i> Users Management
+      </a>
+      <div class="dropdown-menu">
+        <!-- Users sub-dropdown -->
+        <a href="" class="dropdown-item dropright">
+          <a class="nav-link dropdown-toggle icon" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-user"></i> Users
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item category-link icon" data-category="client" href="{% url 'dashboard' %}">Clients</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="staff" href="{% url 'dashboard' %}">Staff</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="vendor" href="{% url 'dashboard' %}">Vendors</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="agent" href="{% url 'dashboard' %}">Agents</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="contractor" href="{% url 'dashboard' %}">Contractors</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="subcontractor" href="{% url 'dashboard' %}">Subcontractors</a>
+          </div>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" href="{% url 'create_user' %}">New User</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" aria-current="page" href="{% url 'new_category' %}">New Category</a>
+        {% endif %}
+      </div>
+    </li>
+
+    <!-- Estate Management dropdown -->
+    <li class="nav-item dropright">
+      <a class="nav-link dropdown-toggle icon mt-2" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-wrench"></i> Estate Management
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item icon" href="{% url 'estate' %}"><i class="fa-solid fa-house-signal"></i> Estates</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" href="{% url 'bank' %}"><i class="fa-solid fa-building-columns"></i> Company Accounts</a>
+        {% if request.user.is_superuser %}
+        <div class="dropdown-divider"></div>
+        <a class="nav-link icon" aria-current="page" href="{% url 'create_project' %}">New Project</a>
+        {% endif %}
+      </div>
+    </li>
+  </nav>
+
+  {% if msg %} 
+  <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-danger">
+    <h1>{{ msg.title }}</h1>
+    <p class="contact-label">{{ msg.body }}</p>
+  </section>
+  {% elif info %} 
+  <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-info">
+    <h1>{{ info.title }}</h1>
+    <p class="contact-label">{{ info.body }}</p>
+  </section>
+  {% endif %}
+
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 pt-5 mt-5">
+      {% for project in projects %}
+      <a href="{% url 'project_item' id=project.id %}" class="project-container">
+          <div class="col mt-4">
+              <div class="card rounded-2 shadow-sm shadow-hover bg-body-secondary">
+                  <div class="px-3">
+                      <h4 class="my-3 fw-600 proj-text proj">{{ project.title }}</h4>
+                      <p class="card-title pricing-card-title text-secondary"><i class="fa-solid fa-location-dot"></i> {{ project.location }}</p>
+                  </div>
+                  <div>
+                      <img src="{{ project.display_img.url }}" alt="{{ project.title }}" class="site-img">
+                  </div>
+                  <div class="card-body d-flex justify-content-between">
+                      <span class="fw-bold proj">{{ project.tot_num_of_bedrooms|floatformat }}<small class="fw-600"> Bedrooms</small></span>
+                      <span class="fw-bold proj">{{ project.tot_num_of_bathrooms|floatformat }}<small class="fw-600"> Bathrooms</small></span>
+                      <span class="fw-bold proj">{{ project.size|floatformat:"2g" }}<small class="fw-600"> sqms</small></span>
+                  </div>
+              </div>
+          </div>
+      </a>
+      {% endfor %}
+  </div>
+
+</section>
+<!-- End of Projects Section -->
+{% endblock %}

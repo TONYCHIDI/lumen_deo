@@ -1,0 +1,390 @@
+{% extends "lumenapp/layout.html" %} 
+
+{% load static %}
+
+{% load mathfilters %}
+
+{% block body %}
+<!-- Admin Section -->
+<section class="admin d-flex bg-gray-100" id="admin">
+  <nav class="nav flex-column d-inline-flex mt-4">
+
+    <!-- User profile  -->
+     {% if user_id or request.user.is_authenticated %}
+      <a class="nav-link fs-1 mt-5 p-3" href="{% url 'profile' user_id=user.id %}"><strong>{{ user }}</strong></a>
+     {% else %}
+     <a class="nav-link fs-1 mt-5 p-3" href=""><strong>{{ user }}</strong></a>
+     {% endif %} 
+    <!-- User Management dropdown -->
+    <li class="nav-item dropright">
+      <a class="nav-link dropdown-toggle icon mt-2" href="{% url 'user_acct' user_id=user.id %}" role="button">
+        <i class="fa-solid fa-user-gear"></i> Account Management
+      </a>
+    </li>
+    
+    
+    <!-- User Management dropdown -->
+    {% if request.user.is_superuser %}
+    <li class="nav-item dropright">
+      <a class="nav-link dropdown-toggle icon mt-2" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-users-gear"></i> Users Management
+      </a>
+      <div class="dropdown-menu">
+        <!-- Users sub-dropdown -->
+        <a href="" class="dropdown-item dropright">
+          <a class="nav-link dropdown-toggle icon" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-user"></i> Users
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item category-link icon" data-category="client" href="#">Clients</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="staff" href="#">Staff</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="vendor" href="#">Vendors</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="agent" href="#">Agents</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="contractor" href="#">Contractors</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item category-link icon" data-category="subcontractor" href="#">Subcontractors</a>
+          </div>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" href="{% url 'create_user' %}">New User</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" aria-current="page" href="{% url 'new_category' %}">New Category</a>
+      </div>
+    </li>
+    {% endif %}
+
+    <!-- Estate Management dropdown -->
+    <li class="nav-item dropright">
+      <a class="nav-link dropdown-toggle icon mt-2" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-wrench"></i> Estate Management
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item icon" href="{% url 'project' %}"><i class="fa-solid fa-house-signal"></i> Estates</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item icon" href="{% url 'bank' %}"><i class="fa-solid fa-building-columns"></i> Company Accounts</a>
+        {% if request.user.is_superuser %}
+        <div class="dropdown-divider"></div>
+        <a class="nav-link icon" aria-current="page" href="{% url 'create_project' %}">New Project</a>
+        {% endif %}
+      </div>
+    </li>
+  </nav>
+
+  <!-- Main Content Section -->
+  <section id="lumen-deo" class="container-fluid effect-section pt-5 mt-5">
+    
+    {% if request.user.is_superuser %}
+    <!-- Admin Dashboard -->
+    <h1 class="pt-5 mt-5 text-center">Admin {{ user.username }}'s Dashboard</h1>
+    {% else %}
+    <!-- User Dashboard -->
+    <h1 class="pt-5 mt-5 text-center">{{ user.username }}'s Dashboard</h1>
+    {% endif %}
+
+    {% if msg %} 
+    <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-danger">
+      <h1>{{ msg.title }}</h1>
+      <p class="contact-label">{{ msg.body }}</p>
+    </section>
+    {% elif info %} 
+      <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-info">
+        <h1>{{ info.title }}</h1>
+        <p class="contact-label">{{ info.body }}</p>
+      </section>
+    {% endif %}
+
+    <section class="d-flex admin-dash-pr-sec flex-wrap justify-content-between">      
+      <!-- Subscription report -->
+      {% if subscriptions or houses or subscription %} 
+        {% if request.user.is_superuser %} 
+        <div class="admin-dash-sub flex-column bg-white p-3 rounded-2 shadow">
+          <div class="d-flex">
+            <div class="fak rounded-circle bg-body-secondary align-content-center text-center text-body-tertiary"><i class="fa-solid fa-cart-shopping"></i></div>
+            <div class="mb-5">
+              <h2 class="fw-bolder text-info">{{ subscriptions.count }}<span>/</span>{{ houses.count }} </h2>
+              <p class="fw-bold text-secondary">Subscription Ratio</p>
+            </div>
+          </div>
+          <div class="d-flex flex-column">
+            <label class="d-flex justify-content-between fw-800 text-secondary"><span>Total Subscriptions</span><span>{{ subscriptions.count|div:houses.count|floatformat:2|mul:100 }}%</span></label>
+            <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="{{ subscriptions.count }}" aria-valuemin="0" aria-valuemax="{{ houses.count }}">
+              <div class="progress-bar my-bg-green" style="width: {{ subscriptions.count|div:houses.count|floatformat:1|mul:100 }}%">{{ subscriptions.count|div:houses.count|floatformat:2|mul:100 }}%</div>
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <div class="admin-dash-sub flex-column bg-white p-3 rounded-2 shadow">
+          <div class="d-flex">
+            <div class="fak rounded-circle bg-body-secondary align-content-center text-center text-body-tertiary"><i class="fa-solid fa-cart-shopping"></i></div>
+            <div class="mb-5">
+              <h2 class="fw-bolder text-info">{{ subscription.count }}<span>/</span>{{ houses.count }} </h2>
+              <p class="fw-bold text-secondary">Subscription Ratio</p>
+            </div>
+          </div>
+          <div class="d-flex flex-column">
+            <label class="d-flex justify-content-between fw-800 text-secondary"><span>Total Subscriptions</span><span>{{ subscription.count|div:houses.count|floatformat:2|mul:100 }}%</span></label>
+            <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="{{ subscription.count }}" aria-valuemin="0" aria-valuemax="{{ houses.count }}">
+              <div class="progress-bar my-bg-green" style="width: {{ subscription.count|div:houses.count|floatformat:1|mul:100 }}%">{{ subscription.count|div:houses.count|floatformat:2|mul:100 }}%</div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      {% endif %}
+
+      <!-- Unit availability report -->
+      {% if avail_unit or houses %} 
+      <div class="admin-dash-sub flex-column bg-white p-3 rounded-2 shadow">
+        <div class="d-flex">
+          <div class="fak rounded-circle bg-body-secondary align-content-center text-center text-body-tertiary"><i class="fa-solid fa-cart-shopping"></i></div>
+          <div class="mb-5">
+            <h2 class="fw-bolder text-info">{{ avail_unit.count }}<span>/</span>{{ houses.count }} </h2>
+            <p class="fw-bold text-secondary">Availability Ratio</p>
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <label class="d-flex justify-content-between fw-800 text-secondary"><span>Unit Percentage</span><span>{{ avail_unit.count|div:houses.count|floatformat:2|mul:100 }}%</span></label>
+          <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="{{ avail_unit.count }}" aria-valuemin="0" aria-valuemax="{{ houses.count }}">
+            <div class="progress-bar my-bg-green" style="width: {{ avail_unit.count|div:houses.count|floatformat:1|mul:100 }}%">{{ avail_unit.count|div:houses.count|floatformat:2|mul:100 }}%</div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      
+      <!-- Users report -->
+      {% if subscriptions or user_subscription_count or all_users %} 
+      <div class="admin-dash-sub flex-column bg-white p-3 rounded-2 shadow">
+        <div class="d-flex">
+          <div class="fak rounded-circle bg-body-secondary align-content-center text-center text-body-tertiary"><i class="fa-solid fa-users-rectangle"></i></div>
+          <div class="mb-5">
+            <h2 class="fw-bolder text-primary">{{ user_subscription_count }}<span>/</span>{{ all_users.count }} </h2>
+            <p class="fw-bold text-secondary">Subscribed Users' Ratio</p>
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <label class="d-flex justify-content-between fw-800 text-secondary"><span>Total Subscribers</span><span>{{ user_subscription_count|div:all_users.count|floatformat:2|mul:100 }}%</span></label>
+          <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="{{ user_subscription_count }}" aria-valuemin="0" aria-valuemax="{{ all_users.count }}">
+            <div class="progress-bar" style="width: {{ user_subscription_count|div:all_users.count|floatformat:1|mul:100 }}%">{{ user_subscription_count|div:all_users.count|floatformat:2|mul:100 }}%</div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      
+      <!-- Project report -->
+      {% if projects or completed_project_count %} 
+      <div class="admin-dash-sub flex-column bg-white p-3 rounded-2 shadow">
+        <div class="d-flex">
+          <div class="fak rounded-circle bg-body-secondary align-content-center text-center text-body-tertiary"><i class="fa-solid fa-house-signal"></i></div>
+          <div class="mb-5">
+            <h2 class="fw-bolder text-orange">{{ completed_project_count }}<span>/</span>{{ projects.count }} </h2>
+            <p class="fw-bold text-secondary">Project Progression</p>
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <label class="d-flex justify-content-between fw-800 text-secondary"><span>Project Progress</span><span>{{ completed_project_count|div:projects.count|floatformat:2|mul:100 }}%</span></label>
+          <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="{{ completed_project_count }}" aria-valuemin="0" aria-valuemax="{{ projects.count }}">
+            <div class="progress-bar" style="background-color:#FFA500; color: #000;width: {{ completed_project_count|div:projects.count|floatformat:1|mul:100 }}%">{{ completed_project_count|div:projects.count|floatformat:2|mul:100 }}%</div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      
+    </section>
+    
+    <!-- Default Displayed User Section -->
+    {% if all_users %}
+    <div id="users" class="text-left my-5">
+      <h2 class="pt-5">All Users</h2>
+      <table class="table table-success table-sm table-hover table-striped text-left mx-auto w-80 mb-5 pb-5">
+        <thead>
+          <tr>
+            <th scope="Col">Name</th>
+            <th scope="Col">Category</th>
+            <th scope="Col">Phone Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user_super in all_users %}
+          <tr>
+            <td>{{ user_super.user_name }}</td>
+            <td>{{ user_super.category }}</td>
+            <td>{{ user_super.phone_number }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+    
+    <!-- Display all clients -->
+    {% if clients %}
+    <div id="client" class="category-section" style="display: none;">
+        <h2>Clients</h2>
+        <table class="table table-success table-sm table-hover table-striped mx-auto w-80">
+          <thead>
+              <tr>
+                  <th scope="Col">Name</th>
+                  <th scope="Col">Email</th>
+                  <th scope="Col">Phone Number</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for client in clients %}
+              <tr>
+                  <td>{{ client.user_name }}</td>
+                  <td>{{ client.email_address }}</td>
+                  <td>{{ client.phone_number }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    <!-- Display all staff -->
+    {% if staff %}
+    <div id="staff" class="category-section" style="display: none;">
+        <h2>Staff</h2>
+        <table class="table table-success table-sm table-hover table-striped mx-auto w-80">
+          <thead>
+              <tr>
+                  <th scope="Col">Name</th>
+                  <th scope="Col">Designation</th>
+                  <th scope="Col">Phone Number</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for staff_member in staff %}
+              <tr>
+                  <td>{{ staff_member.user_name }}</td>
+                  <td>{{ staff_member.designation }}</td>
+                  <td>{{ staff_member.phone_number }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    <!-- Display all agents -->
+    {% if agents %}
+    <div id="agent" class="category-section" style="display: none;">
+      <h2>Agents</h2>
+      <table class="table table-success table-sm table-hover table-striped mx-auto w-80">
+        <thead>
+            <tr>
+                <th scope="Col">Name</th>
+                <th scope="Col">Email</th>
+                <th scope="Col">Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for agent in agents %}
+            <tr>
+                <td>{{ agent.user_name }}</td>
+                <td>{{ agent.email_address }}</td>
+                <td>{{ agent.phone_number }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+        
+    <!-- Display all contractors -->
+    {% if contractors %}
+    <div id="contractor" class="category-section" style="display: none;">
+        <h2>Contractors</h2>
+        <table class="table table-success table-sm table-hover table-striped mx-auto w-80">
+          <thead>
+              <tr>
+                  <th scope="Col">Name</th>
+                  <th scope="Col">Email</th>
+                  <th scope="Col">Phone Number</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for contractor in contractors %}
+              <tr>
+                  <td>{{ contractor.user_name }}</td>
+                  <td>{{ contractor.email_address }}</td>
+                  <td>{{ contractor.phone_number }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+    </div>
+    {% endif %} 
+
+    <!-- Display all subcontractors -->
+    {% if subcontractors %}
+    <div id="subcontractor" class="category-section" style="display: none;">
+      <h2>Subcontractors</h2>
+      <table class="table table-success table-sm table-hover table-striped mx-auto w-80">
+        <thead>
+            <tr>
+                <th scope="Col">Name</th>
+                <th scope="Col">Email</th>
+                <th scope="Col">Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for subcontractor in subcontractors %}
+            <tr>
+                <td>{{ subcontractor.user_name }}</td>
+                <td>{{ subcontractor.email_address }}</td>
+                <td>{{ subcontractor.phone_number }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}  
+    
+    <!-- Display all vendor -->
+    {% if vendors %}
+    <div id="vendor" class="category-section" style="display: none;">
+      <h2>Vendors</h2>
+      <table class="table table-success table-sm table-hover table-striped mx-auto w-80">
+        <thead>
+            <tr>
+                <th scope="Col">Name</th>
+                <th scope="Col">Email</th>
+                <th scope="Col">Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for vendor in vendors %}
+            <tr>
+                <td>{{ vendor.user_name }}</td>
+                <td>{{ vendor.email_address }}</td>
+                <td>{{ vendor.phone_number }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}  
+
+    <!-- Project/Subscription History Section -->
+    <section class="project_history w-100" id="proj-history">
+      <div class="plots">
+        {% if avail_vs_sold %}
+            <div class="plot">
+                <img src="data:image/png;base64,{{ avail_vs_sold }}" alt="Available Units vs Sold Units Plot">
+            </div>
+        {% endif %}
+        {% if sold_vs_houses %}
+            <div class="plot">
+                <img src="data:image/png;base64,{{ sold_vs_houses }}" alt="Sold Units vs Total Houses Plot">
+            </div>
+        {% endif %}
+      </div>
+    </section>
+</section>
+</section>
+<!-- End of Company Profile Summary Section -->
+{% endblock %}

@@ -1,0 +1,57 @@
+<!-- project.html file -->
+
+{% extends "lumenapp/layout.html" %}
+
+{% load static %}
+
+{% block body %}
+
+
+<!-- Lumen Account Section -->
+<section id="projects" class="project-container d-flex flex-column bg-body-tertiary m-auto p-5 my-5">
+
+  <h1 class="pt-5 mt-5 text-center">Company Account Details</h1>
+
+  {% if msg %} 
+  <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-danger">
+    <h1>{{ msg.title }}</h1>
+    <p class="contact-label">{{ msg.body }}</p>
+  </section>
+  {% elif info %} 
+  <section id="proj_upload" class="d-flex  flex-column align-items-center mt-5 pt-5 alert alert-info">
+    <h1>{{ info.title }}</h1>
+    <p class="contact-label">{{ info.body }}</p>
+  </section>
+  {% endif %}
+
+  <div class="row row-cols-1 pt-5 mt-5">
+    {% if request.user.is_superuser %}
+    <form action="{% url 'bank' %}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-5" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn-fade btn-border-none">Create Account</button>
+    </form>
+    {% endif %}
+
+    <table class="table-striped">
+      <thead>
+        <tr>
+          <th>Bank</th>
+          <th>Account Name</th>
+          <th>Account Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for bank in banks %}
+          <tr>
+            <td> {{ bank.com_bank }} </a></td>
+            <td> {{ bank.acct_name }} </a></td>
+            <td> {{ bank.acct_num }} </a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+<!-- End of Projects Section -->
+{% endblock %}
