@@ -1,6 +1,6 @@
 # **LUMENAPP - A Real Estate Management Django App**
 
-### **Video recording** <a href="https://youtu.be/vtNli6I7R44" target="_blank"><img src="[https://i9.ytimg.com/vi_webp/vtNli6I7R44/mq1.webp?sqp=CPSun7UG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGBcgZShgMA8=&rs=AOn4CLCHCJTRLJ2nqKCCGQ1AwAkicGhCAw](https://i9.ytimg.com/vi_webp/vtNli6I7R44/mq1.webp?sqp=CPjazbUG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGBcgZShgMA8=&rs=AOn4CLDiPzOESI20zumYF3K4-drdle0YJQ)" alt="IMAGE ALT TEXT HERE" width="240" height="100"></a>
+### **Video recording** <a href="https://youtu.be/vtNli6I7R44" target="_blank"><img src="[https://i9.ytimg.com/vi_webp/vtNli6I7R44/mq1.webp?sqp=CPSun7UG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGBcgZShgMA8=&rs=AOn4CLCHCJTRLJ2nqKCCGQ1AwAkicGhCAw](https://i9.ytimg.com/vi_webp/vtNli6I7R44/mq1.webp?sqp=CPjazbUG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGBcgZShgMA8=&rs=AOn4CLDiPzOESI20zumYF3K4-drdle0YJQ)" alt="Lumenapp image" width="240" height="100"></a>
 
 ## **Overview**
 The Real Estate Management System is a comprehensive Django web application designed to manage various aspects of real estate projects, from user categorization and property management to house prototype subscriptions. This system provides a robust platform for users, developers, and companies to manage and track real estate projects efficiently.
